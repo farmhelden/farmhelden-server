@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
+from rest_server.models import Farm
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -16,5 +17,5 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 class FarmSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Group
-        fields = ['id', 'zip', 'street']
+        model = Farm
+        fields = ['id', 'zip_code', 'street']

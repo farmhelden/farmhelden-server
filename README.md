@@ -1,4 +1,4 @@
-##setup postgres
+## setup postgres
 
 ```sql
 CREATE DATABASE farmhelden;
@@ -12,12 +12,12 @@ ALTER ROLE farmheldenuser SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE farmhelden TO farmheldenUser;
 ``` 
 
-##create superuser
+## create superuser
 ```bash
 python manage.py createsuperuser --email admin@example.com --username admin
 ``` 
 
-##start dev server
+## start dev server
 
 ```bash
 source env/bin/activate

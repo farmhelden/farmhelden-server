@@ -17,6 +17,7 @@ GRANT ALL PRIVILEGES ON DATABASE farmhelden TO farmheldenUser;
 python manage.py createsuperuser --email admin@example.com --username admin
 ``` 
 
-## start dev server with local postgres
+## build and start dev server with local postgres
 
+docker build -t farmhelden .
 docker run --network="host" farmhelden

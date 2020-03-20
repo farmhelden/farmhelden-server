@@ -11,6 +11,12 @@ ALTER ROLE farmheldenUser SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE farmhelden TO farmheldenUser;
 
 
+create superuser
+
+python manage.py createsuperuser --email admin@example.com --username admin
+
+
+
 start dev server
 
 source env/bin/activate

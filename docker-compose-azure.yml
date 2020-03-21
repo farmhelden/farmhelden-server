@@ -14,7 +14,7 @@ services:
           - farmhelden.db
 
   api:
-    build: .
+    image: "${DOCKER_REGISTRY_SERVER_URL}/farmheld:latest"
     ports:
       - "8000:8000"
     depends_on:

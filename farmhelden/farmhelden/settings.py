@@ -131,11 +131,13 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework_simplejwt.authentication.JWTAuthentication',
+            'rest_server.backends.JWTAuthentication',
         ),
     'DEFAULT_PERMISSION_CLASSES': (
             'rest_framework.permissions.IsAuthenticated',
         ),
+    'EXCEPTION_HANDLER': 'rest_server.exceptions.core_exception_handler',
+    'NON_FIELD_ERRORS_KEY': 'error',
     'PAGE_SIZE': 10
 }
 

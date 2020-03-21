@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    image: mdillon/postgis:11
+    container_name: postgres-farmhelden
+    environment:
+        POSTGRES_DB: farmhelden
+        POSTGRES_USER: farmheldenuser
+        POSTGRES_PASSWORD: password
+    networks:
+      internal:
+        aliases:
+          - farmhelden.db
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      internal:
+        aliases:
+          - farmhelden.api
+
+networks:
+  internal:

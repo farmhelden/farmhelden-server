@@ -17,10 +17,13 @@ GRANT ALL PRIVILEGES ON DATABASE farmhelden TO farmheldenUser;
 python manage.py createsuperuser --email admin@example.com --username admin
 ``` 
 
-## start dev server
-
+## create and run migrations from model changes
 ```bash
-source env/bin/activate
-cd farmhelden
-python manage.py runserver
+python farmhelden/manage.py makemigrations
+python farmhelden/manage.py migrate
 ``` 
+
+## build and start dev server with local postgres
+
+docker build -t farmhelden .
+docker run --network="host" farmhelden

@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from farmhelden.restServer.serializers import UserSerializer, GroupSerializer
+from rest_server.models import Farm
+from rest_server.serializers import UserSerializer, GroupSerializer, FarmSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,4 +20,12 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class FarmViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows farms to be viewed or edited.
+    """
+    queryset = Farm.objects.all()
+    serializer_class = FarmSerializer
     permission_classes = [permissions.IsAuthenticated]

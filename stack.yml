@@ -1,0 +1,58 @@
+version: '3.7'
+
+networks:
+  external:
+    external: true
+    name: proxy
+  internal:
+
+volumes:
+  pg_data:
+
+
+services:
+  api:
+    image: docker.pkg.github.com/farmhelden/farmhelden-server/api
+    build: .
+    networks:
+      internal:
+        aliases:
+          - farmhelden.api
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.port=8000"
+        - "traefik.docker.network=web"
+        - "traefik.frontend.rule=Host:${domain:-api.staging.farm-helden.de}"
+        - "traefik.backend.loadbalancer.method=wrr"
+        - "traefik.frontend.headers.SSLRedirect=true"
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+
+  db:
+    image: mdillon/postgis:11
+    environment:
+      POSTGRES_DB: farmhelden
+      POSTGRES_USER: farmheldenuser
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      internal:
+        aliases:
+          - farmhelden.db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=false"
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G

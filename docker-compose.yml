@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: mdillon/postgis
+    image: mdillon/postgis:11
     container_name: postgres-farmhelden
     environment:
         POSTGRES_DB: farmhelden

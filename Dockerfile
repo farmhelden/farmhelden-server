@@ -1,10 +1,7 @@
 FROM python:3
-
-ADD farmhelden /opt/farmhelden
-
-RUN pip install -r /opt/farmhelden/requirements.txt
-
-CMD [ "python", "/opt/farmhelden/manage.py", "runserver" ]
-
-
-
+ENV PYTHONUNBUFFERED 1
+RUN mkdir /code
+WORKDIR /code
+COPY farmhelden/requirements.txt /code/
+RUN pip install -r farmhelden/requirements.txt
+COPY farmhelden /code/

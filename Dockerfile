@@ -3,5 +3,5 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
 COPY farmhelden/requirements.txt /code/
-RUN pip install -r farmhelden/requirements.txt
+RUN pip install -r /code/requirements.txt
 COPY farmhelden /code/

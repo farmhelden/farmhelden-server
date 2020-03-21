@@ -1,7 +1,10 @@
+import jwt
+from django.conf import settings
 from django.contrib.gis.db import models as gisModels
 from django.contrib.gis.forms import PointField
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.db import models
+from datetime import datetime, timedelta
 
 class UserManager(BaseUserManager):
     """
@@ -44,7 +47,7 @@ class UserType(models.Model):
     name = models.CharField(max_length=100)
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
     USER_CHOICES = (
@@ -56,6 +59,8 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=50)
     point = gisModels.PointField(null=True)
     has_license = models.BooleanField(null=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
     user_type = models.CharField(max_length=1, choices=USER_CHOICES, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

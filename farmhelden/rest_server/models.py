@@ -30,7 +30,7 @@ class Location(models.Model):
 class Farm(models.Model):
     id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    locations = models.ManyToOneRel(Location)
+    locations = models.ForeignKey(Location, on_delete=models.CASCADE)
     point = gisModels.PointField(null=True)
     zip_code = models.CharField(max_length=10, null=True)
     street = models.CharField(max_length=100, null=True)

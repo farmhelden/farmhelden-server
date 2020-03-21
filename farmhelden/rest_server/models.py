@@ -18,9 +18,18 @@ class User(models.Model):
     user_type = models.CharField(max_length=1, choices=USER_CHOICES, null=True)
 
 
+class Location(models.Model):
+    LOCATION_TYPES = (('1', 'Bauernhof'), ('2', 'Feld'))
+    id = models.AutoField(primary_key=True)
+    point = PointField()
+    info = models.TextField(max_length=1000)
+    location_type = models.CharField(max_length=1, choices=LOCATION_TYPES)
+
+
 class Farm(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    locations = models.ManyToOneRel(Location)
     point = gisModels.PointField(null=True)
     zip_code = models.CharField(max_length=10, null=True)
     street = models.CharField(max_length=100, null=True)
@@ -38,6 +47,7 @@ class TaskType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
+    users = models.ManyToManyField(User)
 
 
 class Task(models.Model):

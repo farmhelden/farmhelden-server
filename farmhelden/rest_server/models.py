@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models as gisModels
+from django.contrib.gis.forms import PointField
 from django.db import models
 
 

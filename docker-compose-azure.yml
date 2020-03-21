@@ -3,6 +3,7 @@ version: '3'
 services:
   db:
     image: mdillon/postgis:11
+    container_name: postgres-farmhelden
     environment:
         POSTGRES_DB: farmhelden
         POSTGRES_USER: farmheldenuser
@@ -13,9 +14,7 @@ services:
           - farmhelden.db
 
   api:
-    build: .
-    volumes:
-      - ./farmhelden:/farmhelden
+    image: "${DOCKER_REGISTRY_SERVER_URL}/farmheld:latest"
     ports:
       - "8000:8000"
     depends_on:

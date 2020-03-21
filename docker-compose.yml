@@ -9,18 +9,22 @@ services:
         POSTGRES_USER: farmheldenuser
         POSTGRES_PASSWORD: password
     networks:
-        - farmhelden-all
-  web:
+      internal:
+        aliases:
+          - farmhelden.db
+
+  api:
     build: .
-    command: bash boot.sh
     volumes:
-      - ./farmhelden:/code
+      - ./farmhelden:/farmhelden
     ports:
       - "8000:8000"
     depends_on:
       - db
     networks:
-        - farmhelden-all
+      internal:
+        aliases:
+          - farmhelden.api
 
 networks:
-    farmhelden-all:
+  internal:

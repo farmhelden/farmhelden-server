@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models as gisModels
 from django.contrib.gis.forms import PointField
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -8,12 +9,11 @@ class UserType(models.Model):
     name = models.CharField(max_length=100)
 
 
-class User(models.Model):
+class User(AbstractUser):
     USER_CHOICES = (
         ('1', 'Landwirt'),
         ('2', 'Helfer'))
 
-    id = models.AutoField(primary_key=True)
     point = gisModels.PointField(null=True)
     has_license = models.BooleanField(null=True)
     user_type = models.CharField(max_length=1, choices=USER_CHOICES, null=True)

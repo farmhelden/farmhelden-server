@@ -12,7 +12,7 @@ services:
         - farmhelden-all
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash boot.sh
     volumes:
       - ./farmhelden:/code
     ports:

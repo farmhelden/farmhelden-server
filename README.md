@@ -13,13 +13,9 @@ Use this while `docker-compose up` is running. Open a second terminal tab and ex
 ```
 
 ## Useful Django Management Commands
-# create and run migrations from model changes
-```bash
-python farmhelden/manage.py makemigrations
-python farmhelden/manage.py migrate
-```
 
 # create superuser
 ```bash
-python manage.py createsuperuser --email admin@example.com --username admin
+./manage.sh # on host
+python manage.py createsuperuser --email admin@example.com --username admin # in container
 ``` 

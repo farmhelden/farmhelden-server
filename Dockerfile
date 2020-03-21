@@ -5,5 +5,5 @@ WORKDIR /code
 COPY farmhelden/requirements.txt /code/
 RUN pip install -r /code/requirements.txt
 RUN apt-get update
-RUN apt-get install postgresql-client -y
+RUN apt-get install postgresql-client python3-gdal -y
 COPY farmhelden /code/

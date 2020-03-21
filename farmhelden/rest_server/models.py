@@ -1,4 +1,4 @@
-from django.contrib.gis.forms import PointField
+from django.contrib.gis.db import models as gisModels
 from django.db import models
 
 
@@ -13,7 +13,7 @@ class User(models.Model):
         ('2', 'Helfer'))
 
     id = models.AutoField(primary_key=True)
-    point = PointField()
+    point = gisModels.PointField(null=True)
     has_license = models.BooleanField(null=True)
     user_type = models.CharField(max_length=1, choices=USER_CHOICES, null=True)
 
@@ -30,6 +30,7 @@ class Farm(models.Model):
     id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     locations = models.ManyToOneRel(Location)
+    point = gisModels.PointField(null=True)
     zip_code = models.CharField(max_length=10, null=True)
     street = models.CharField(max_length=100, null=True)
 

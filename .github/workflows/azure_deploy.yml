@@ -1,7 +1,10 @@
 name: Build and deploy Docker app to Azure
 
-on: push
-
+on:
+  push:
+    branches:
+      - '**feature**'
+      - ci
 # CONFIGURATION
 # For help, go to https://github.com/Azure/Actions
 #
@@ -37,11 +40,12 @@ jobs:
     - name: Docker Build & Push to ACR
       run: |
         docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}  
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}
     - name: 'Deploy to Azure Web App for Container'   
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        images: ${{ secrets.CONTAINER_REGISTRY }}/${{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}
+        configuration-file: docker-compose-azure.yml
+        images: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}
 
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples

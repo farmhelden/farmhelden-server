@@ -4,6 +4,7 @@ from rest_server.geocode import get_coordinates
 from django.contrib.gis.geos import Point
 from django.contrib.auth import authenticate
 
+
 class UserSerializer(serializers.ModelSerializer):
     """Handles serialization and deserialization of User objects."""
 
@@ -19,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'token',)
+        fields = ('email', 'password', 'token', 'first_name', 'last_name')
 
         # The `read_only_fields` option is an alternative for explicitly
         # specifying the field with `read_only=True` like we did for password
@@ -29,7 +30,6 @@ class UserSerializer(serializers.ModelSerializer):
         # `max_length` properties, but that isn't the case for the token
         # field.
         read_only_fields = ('token',)
-
 
     def update(self, instance, validated_data):
         """Performs an update on a User."""
@@ -58,13 +58,14 @@ class UserSerializer(serializers.ModelSerializer):
 
         return instance
 
+
 class FarmSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Farm
         fields = ['id', 'zip_code', 'street', 'point']
 
     def create(self, validated_data):
-        object =  Farm.objects.create(**validated_data)
+        object = Farm.objects.create(**validated_data)
         try:
             lat, lng = get_coordinates("address " + object.zip_code + " " + object.street)
             object.point = Point(lat, lng)
@@ -73,6 +74,7 @@ class FarmSerializer(serializers.HyperlinkedModelSerializer):
             print('error while geocoding, did you set a google api key?')
 
         return object
+
 
 class RegistrationSerializer(serializers.ModelSerializer):
     """Serializers registration requests and creates a new user."""
@@ -98,6 +100,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Use the `create_user` method we wrote earlier to create a new user.
         return User.objects.create_user(**validated_data)
+
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)

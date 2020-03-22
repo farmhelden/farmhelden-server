@@ -6,6 +6,7 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, Permi
 from django.db import models
 from datetime import datetime, timedelta
 
+
 class UserManager(BaseUserManager):
     """
     Django requires that custom users define their own Manager class. By
@@ -117,12 +118,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return token.decode('utf-8')
 
+
 class Farm(models.Model):
     id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     point = gisModels.PointField(null=True)
     zip_code = models.CharField(max_length=16, null=True)
     street = models.CharField(max_length=128, null=True)
+
 
 class Location(models.Model):
     LOCATION_TYPES = (('1', 'Bauernhof'), ('2', 'Treffpunkt'))
@@ -132,6 +135,7 @@ class Location(models.Model):
     farm_id = models.ForeignKey(Farm, on_delete=models.CASCADE)
     location_type = models.CharField(max_length=1, choices=LOCATION_TYPES)
 
+
 class Campaign(models.Model):
     id = models.AutoField(primary_key=True)
     farm_id = models.ForeignKey(Farm, on_delete=models.CASCADE)
@@ -139,13 +143,26 @@ class Campaign(models.Model):
     date_from = models.DateTimeField()
     date_to = models.DateTimeField()
 
+
 class JobType(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=128)
     needs_license = models.BooleanField()
     description = models.TextField(max_length=1024)
 
+
 class Job(models.Model):
     id = models.AutoField(primary_key=True)
     job_type = models.ForeignKey(JobType, on_delete=models.CASCADE)
-    users = models.ManyToManyField(User)
+    date_from = models.DateTimeField()
+    date_to = models.DateTimeField()
+    required_users = models.IntegerField()
+    pending_jobs = models.ManyToManyField('PendingJob')
+
+
+class PendingJob(models.Model):
+    DECISION_TYPES = (('1', 'Pending'), ('2', 'Accepted'), ('3', 'Denied'))
+    id = models.AutoField(primary_key=True)
+    job_id = models.ForeignKey(Job, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=1, choices=DECISION_TYPES)

@@ -12,6 +12,8 @@ from rest_server.renderers import UserJSONRenderer
 from rest_framework.decorators import action
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import Distance
+from django.core.serializers import serialize as djangoSerializer
+import json
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -140,3 +142,11 @@ class LocationViewSet(viewsets.ModelViewSet):
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
     permission_classes = []
+
+    @action(detail=False)
+    def all_as_geo_json(self, request):
+        data = djangoSerializer('geojson', Location.objects.all(),
+                                geometry_field='point',
+                                fields=('id', 'point', 'info', 'farm_id', 'location_type'))
+
+        return Response(json.loads(data))

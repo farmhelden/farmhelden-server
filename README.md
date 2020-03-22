@@ -7,17 +7,21 @@ docker-compose up
 ```
 
 ## Use Django Management Commands:
-Use this while `docker-compose up` is running. Open a second terminal tab and execute:
+Use this while `docker-compose up` is running. Open a second terminal tab and execute to get a shell on the python api container:
 ```bash
-./manage
+./manage.sh
 ```
 
-## Useful Django Management Commands
-
-# create superuser
+### create superuser
 ```bash
 ./manage.sh # on host
 python manage.py createsuperuser --email admin@example.com --username admin # in container
+``` 
+
+### fill database with seed values
+```bash
+./manage.sh # on host
+python manage.py seedDbData # in container
 ``` 
 
 # API definition

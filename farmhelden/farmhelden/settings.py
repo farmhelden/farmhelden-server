@@ -25,7 +25,7 @@ SECRET_KEY = '0-(crw$ad#os$gc=3ixo!r&o28#2bq@ia!xf!)w+&i1+4l3i*='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.farm-helden.de']
+ALLOWED_HOSTS = ['.farm-helden.de', 'localhost']
 
 
 # Application definition

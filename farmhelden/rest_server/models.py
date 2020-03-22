@@ -1,7 +1,6 @@
 import jwt
 from django.conf import settings
 from django.contrib.gis.db import models as gisModels
-from django.contrib.gis.forms import PointField
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.db import models
 from datetime import datetime, timedelta
@@ -130,7 +129,7 @@ class Farm(models.Model):
 class Location(models.Model):
     LOCATION_TYPES = (('1', 'Bauernhof'), ('2', 'Treffpunkt'))
     id = models.AutoField(primary_key=True)
-    point = PointField()
+    point = gisModels.PointField(null=True)
     info = models.TextField(max_length=1024)
     farm_id = models.ForeignKey(Farm, on_delete=models.CASCADE)
     location_type = models.CharField(max_length=1, choices=LOCATION_TYPES)

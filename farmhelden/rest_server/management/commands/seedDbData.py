@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         start = pytz.utc.localize(datetime.datetime(2020, 5, 1, 0, 0))
         end = pytz.utc.localize(datetime.datetime(2020, 5, 5, 0, 0))
-        self.create_user_with_farms_and_location(self, email="foo@bar.com", password="password",
+        self.create_users_with_farms_locations_and_campaign(self, email="foo@bar.com", password="password",
                                                  street="Am Deich 2", zip_code="25797",
                                                  info="Hof Haase", date_from=start, date_to=end, point=Point(9.010076, 54.144092))
 

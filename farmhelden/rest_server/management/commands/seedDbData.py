@@ -53,48 +53,48 @@ class Command(BaseCommand):
                                                  street="Lehmberg 1", zip_code="25725",
                                                  info="Ferienhof Bothmann", date_from=start, date_to=end, point=Point(9.301864, 54.051955))
 
-        self.create_users_with_farms_locations_and_campaign(email="foo10@bar.com", password="password",
+        self.create_users_with_farms_locations_and_campaign(email="foo11@bar.com", password="password",
                                                             street="Oberrieder Straße 10", zip_code="86488",
                                                             info="Ferienhof Lecheler GbR - Hofladen", date_from=start, date_to=end,
                                                             point=Point(10.291094, 48.234387))
 
-        self.create_users_with_farms_locations_and_campaign(email="foo10@bar.com", password="password",
+        self.create_users_with_farms_locations_and_campaign(email="foo12@bar.com", password="password",
                                                             street="Haslacherweg 4-5", zip_code="86498",
                                                             info="Ferien- und Kräuterlandhof Spaun", date_from=start,
                                                             date_to=end,
                                                             point=Point(10.287007, 48.209252))
 
-        self.create_users_with_farms_locations_and_campaign(email="foo10@bar.com", password="password",
+        self.create_users_with_farms_locations_and_campaign(email="foo13@bar.com", password="password",
                                                             street="Schulstraße 15", zip_code="89233 Neu-Ulm",
                                                             info="Bauernhof Frank", date_from=start,
                                                             date_to=end,
                                                             point=Point(10.041294, 48.408317))
 
-        self.create_users_with_farms_locations_and_campaign(email="foo10@bar.com", password="password",
+        self.create_users_with_farms_locations_and_campaign(email="foo14@bar.com", password="password",
                                                             street="Münsterweg 9", zip_code="89233 Neu-Ulm",
                                                             info="Traub Hofladen", date_from=start,
                                                             date_to=end,
                                                             point=Point(10.033944, 48.343921))
 
-        self.create_users_with_farms_locations_and_campaign(email="foo10@bar.com", password="password",
+        self.create_users_with_farms_locations_and_campaign(email="foo15@bar.com", password="password",
                                                             street="Neu-Ulmer Str. 5", zip_code="89233 Neu-Ulm",
                                                             info="Michlabauer", date_from=start,
                                                             date_to=end,
                                                             point=Point(10.069806, 48.362199))
 
-        self.create_users_with_farms_locations_and_campaign(email="foo10@bar.com", password="password",
+        self.create_users_with_farms_locations_and_campaign(email="foo16@bar.com", password="password",
                                                             street="Münchner Straße 23", zip_code="85604 Zorneding",
                                                             info="Bauernmarkt Zorneding", date_from=start,
                                                             date_to=end,
                                                             point=Point(11.818700, 48.083018))
 
-        self.create_users_with_farms_locations_and_campaign(email="foo10@bar.com", password="password",
+        self.create_users_with_farms_locations_and_campaign(email="foo17@bar.com", password="password",
                                                             street="Feldmochinger Straße 400", zip_code="80995 München",
                                                             info="Zehentmeier-Hof", date_from=start,
                                                             date_to=end,
                                                             point=Point(11.529329, 48.216521))
 
-        self.create_users_with_farms_locations_and_campaign(email="foo10@bar.com", password="password",
+        self.create_users_with_farms_locations_and_campaign(email="foo18@bar.com", password="password",
                                                             street="Am Wegfeld 21", zip_code="90427 Nürnberg",
                                                             info="Link Gemüse Hofladen", date_from=start,
                                                             date_to=end,

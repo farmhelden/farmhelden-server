@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from rest_server.models import Farm, User, Campaign, Location
 from rest_framework.generics import RetrieveUpdateAPIView
-from rest_server.serializers import UserSerializer, FarmSerializer, LocationSerializer, RegistrationSerializer, \
-    LoginSerializer, UserSerializer, CampaignSerializer
+from rest_server.serializers import (UserSerializer, FarmSerializer, LocationSerializer, RegistrationSerializer,
+                                     LoginSerializer, UserSerializer, CampaignSerializer)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -140,7 +140,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def all_as_geo_json(self, request):
-        data = djangoSerializer('geojson', Location.objects.all(),
+        data = djangoSerializer('custom_geojson', Location.objects.all(),
                                 geometry_field='point',
                                 fields=('id', 'point', 'info', 'farm_id', 'location_type'))
 
@@ -155,5 +155,7 @@ class LocationViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
         filtered_locations = Location.objects.filter(point__distance_lt=(point, Distance(km=radius)))
-        serializer = self.get_serializer(filtered_locations, many=True)
-        return Response(serializer.data)
+        data = djangoSerializer('custom_geojson', filtered_locations,
+                                geometry_field='point',
+                                fields=('id', 'point', 'info', 'farm_id', 'location_type'))
+        return Response(data)

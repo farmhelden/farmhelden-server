@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
 from rest_server.models import User, Farm, Location, Campaign
-from django.utils import timezone
 import datetime
 
 import pytz

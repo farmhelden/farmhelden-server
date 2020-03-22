@@ -59,7 +59,7 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-class FarmSerializer(serializers.HyperlinkedModelSerializer):
+class FarmSerializer(serializers.ModelSerializer):
     class Meta:
         model = Farm
         fields = ['id', 'zip_code', 'street', 'point']
@@ -161,7 +161,7 @@ class LoginSerializer(serializers.Serializer):
         }
 
 
-class LocationSerializer(serializers.HyperlinkedModelSerializer):
+class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = ['id', 'point', 'info', 'farm_id', 'location_type']
@@ -170,12 +170,12 @@ class LocationSerializer(serializers.HyperlinkedModelSerializer):
         return Location.objects.create(**validated_data)
 
 
-class CampaignSerializer(serializers.HyperlinkedModelSerializer):
+class CampaignSerializer(serializers.ModelSerializer):
     location = LocationSerializer(read_only=True, source="location_id")
 
     class Meta:
         model = Campaign
-        fields = ['id', 'farm_id', 'location', 'date_from', 'date_to']
+        fields = ['id', 'farm_id', 'location', 'location_id', 'date_from', 'date_to']
 
     def create(self, validated_data):
         return Campaign.objects.create(**validated_data)

@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework import permissions
-from rest_server.models import Farm, User
+from rest_server.models import Farm, User, Campaign, Location
 from rest_framework.generics import RetrieveUpdateAPIView
-from rest_server.serializers import UserSerializer, FarmSerializer, RegistrationSerializer, LoginSerializer, UserSerializer
+from rest_server.serializers import UserSerializer, FarmSerializer, LocationSerializer, RegistrationSerializer, LoginSerializer, UserSerializer, CampaignSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -51,7 +51,7 @@ class FarmViewSet(viewsets.ModelViewSet):
     """
     queryset = Farm.objects.all()
     serializer_class = FarmSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = []
 
 class RegistrationAPIView(APIView):
     # Allow any user (authenticated or not) to hit this endpoint.
@@ -87,3 +87,21 @@ class LoginAPIView(APIView):
         serializer.is_valid(raise_exception=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CampaignViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows farms to be viewed or edited.
+    """
+    queryset = Campaign.objects.all()
+    serializer_class = CampaignSerializer
+    permission_classes = []
+
+
+class LocationViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows farms to be viewed or edited.
+    """
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+    permission_classes = []

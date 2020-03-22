@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_server.models import Farm, User
+from rest_server.models import Farm, User, Campaign, Location
 from rest_server.geocode import get_coordinates
 from django.contrib.gis.geos import Point
 from django.contrib.auth import authenticate
@@ -159,3 +159,21 @@ class LoginSerializer(serializers.Serializer):
             'email': user.email,
             'token': user.token
         }
+
+
+class CampaignSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Campaign
+        fields = ['id', 'farm_id', 'location_id', 'date_from', 'date_to']
+
+    def create(self, validated_data):
+        return Campaign.objects.create(**validated_data)
+
+
+class LocationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Location
+        fields = ['id', 'point', 'info', 'farm_id', 'location_type']
+
+    def create(self, validated_data):
+        return Location.objects.create(**validated_data)

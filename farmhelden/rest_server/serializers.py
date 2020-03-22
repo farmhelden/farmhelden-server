@@ -171,11 +171,11 @@ class LocationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CampaignSerializer(serializers.HyperlinkedModelSerializer):
-    location_id = LocationSerializer(read_only=True)
+    location = LocationSerializer(read_only=True, source="location_id")
 
     class Meta:
         model = Campaign
-        fields = ['id', 'farm_id', 'location_id', 'date_from', 'date_to']
+        fields = ['id', 'farm_id', 'location', 'date_from', 'date_to']
 
     def create(self, validated_data):
         return Campaign.objects.create(**validated_data)

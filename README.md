@@ -12,8 +12,6 @@ Use this while `docker-compose up` is running. Open a second terminal tab and ex
 ./manage.sh
 ```
 
-## Useful Django Management Commands
-
 ### create superuser
 ```bash
 ./manage.sh # on host

@@ -31,6 +31,7 @@ class Command(BaseCommand):
 
         return user, farm, location
 
+    @staticmethod
     def create_campaign(farm, location, date_from, date_to):
         campaign = Campaign.objects.create(farm_id=farm, location_id=location, date_from=date_from, date_to=date_to)
         return campaign

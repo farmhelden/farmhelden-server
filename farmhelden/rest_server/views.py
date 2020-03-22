@@ -74,8 +74,9 @@ class RegistrationAPIView(APIView):
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        response = Response(serializer.data, status=status.HTTP_201_CREATED)
+        response['JWT'] = serializer.data['token']
+        return response
 
 
 class LoginAPIView(APIView):
@@ -92,8 +93,9 @@ class LoginAPIView(APIView):
         # handles everything we need.
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        response = Response(serializer.data, status=status.HTTP_200_OK)
+        response['JWT'] = serializer.data['token']
+        return response
 
 
 class CampaignViewSet(viewsets.ModelViewSet):

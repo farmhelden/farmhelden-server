@@ -22,7 +22,7 @@ python manage.py createsuperuser --email admin@example.com --username admin # in
 
 # API definition
 
-Server and client communicate via REST API,  [the Documentation can be found here](https://app.swaggerhub.com/apis/wirvsvirus/farmhelden/1.0.0#/)
+Server and client communicate via REST API,  [the Documentation can be found here](https://app.swaggerhub.com/apis-docs/wirvsvirus/farmhelden/1.0.0)
 
 
 ## Database Structure

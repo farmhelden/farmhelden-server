@@ -100,6 +100,15 @@ class LoginAPIView(APIView):
         return response
 
 
+def get_radius_point_from_request(request):
+    radius = request.query_params.get('radius', None)
+    lat = request.query_params.get('lat', None)
+    lng = request.query_params.get('lng', None)
+    point = Point(float(lng), float(lat))
+
+    return radius, point
+
+
 class CampaignViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows campaigns to be viewed or edited and searched.
@@ -110,27 +119,13 @@ class CampaignViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def find_in_radius(self, request):
-        radius = request.query_params.get('radius', None)
-        lat = request.query_params.get('lat', None)
-        lng = request.query_params.get('lng', None)
-
-        if radius is None or lat is None or lng is None:
-            return Response('missing required parameter, at least one of radius, lat or lng is missing',
-                            status=status.HTTP_400_BAD_REQUEST)
-
         try:
-            point = Point(float(lng), float(lat))
+            radius, point = get_radius_point_from_request(request)
         except:
-            return Response('invalid format for lat or lng. They should look like this: 53.926445',
+            return Response('missing required parameter, radius, lat or lng is invalid',
                             status=status.HTTP_400_BAD_REQUEST)
 
         filtered_campaigns = Campaign.objects.filter(location_id__point__distance_lt=(point, Distance(km=radius)))
-
-        page = self.paginate_queryset(filtered_campaigns)
-        if page is not None:
-           serializer = self.get_serializer(page, many=True)
-           return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(filtered_campaigns, many=True)
         return Response(serializer.data)
 
@@ -150,3 +145,15 @@ class LocationViewSet(viewsets.ModelViewSet):
                                 fields=('id', 'point', 'info', 'farm_id', 'location_type'))
 
         return Response(json.loads(data))
+
+    @action(detail=False)
+    def find_in_radius_as_geo_json(self, request):
+        try:
+            radius, point = get_radius_point_from_request(request)
+        except:
+            return Response('missing required parameter, radius, lat or lng is invalid',
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        filtered_locations = Location.objects.filter(point__distance_lt=(point, Distance(km=radius)))
+        serializer = self.get_serializer(filtered_locations, many=True)
+        return Response(serializer.data)

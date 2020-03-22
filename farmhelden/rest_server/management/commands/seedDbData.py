@@ -104,10 +104,9 @@ class Command(BaseCommand):
                                                        date_to, point, location_type=1):
         try:
             user = User.objects.get(email=email)
-
-        except:
+        except User.DoesNotExist:
             user = User.objects.create(email=email, password=password)
-            farm = Farm.objects.create(street=street, zip_code=zip_code, user_id=user)
+            farm = Farm.objects.create(street=street, zip_code=zip_code, user_id=user, point=point)
             location = Location.objects.create(info=info, farm_id=farm, location_type=location_type, point=point)
             self.create_campaign(farm=farm, location=location, date_from=date_from, date_to=date_to)
 

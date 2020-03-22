@@ -36,8 +36,8 @@ CORS_EXPOSE_HEADERS = [
 ]
 
 CORS_ORIGIN_REGEX_WHITELIST = [
-    r"^https://\w+\.farm-helden\.de",
-    r"^https://\w+\.staging.farm-helden\.de",
+    r"^https://farm-helden\.de",
+    r"^https://\w+\.staging\.farm-helden\.de",
     r"^http://localhost",
     r"^https://localhost"
 ]

@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from rest_server.models import User, Farm, Location, Campaign
 from django.utils import timezone
 from django.contrib.gis.geos import Point
+
 import datetime
 
 import pytz

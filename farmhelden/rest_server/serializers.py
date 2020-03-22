@@ -161,15 +161,6 @@ class LoginSerializer(serializers.Serializer):
         }
 
 
-class CampaignSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Campaign
-        fields = ['id', 'farm_id', 'location_id', 'date_from', 'date_to']
-
-    def create(self, validated_data):
-        return Campaign.objects.create(**validated_data)
-
-
 class LocationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Location
@@ -177,3 +168,15 @@ class LocationSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         return Location.objects.create(**validated_data)
+
+
+class CampaignSerializer(serializers.HyperlinkedModelSerializer):
+    location_id = LocationSerializer(read_only=True)
+
+    class Meta:
+        model = Campaign
+        fields = ['id', 'farm_id', 'location_id', 'date_from', 'date_to']
+
+    def create(self, validated_data):
+        return Campaign.objects.create(**validated_data)
+

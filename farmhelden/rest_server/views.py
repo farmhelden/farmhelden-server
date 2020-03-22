@@ -2,12 +2,16 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from rest_server.models import Farm, User, Campaign, Location
 from rest_framework.generics import RetrieveUpdateAPIView
-from rest_server.serializers import UserSerializer, FarmSerializer, LocationSerializer, RegistrationSerializer, LoginSerializer, UserSerializer, CampaignSerializer
+from rest_server.serializers import UserSerializer, FarmSerializer, LocationSerializer, RegistrationSerializer, \
+    LoginSerializer, UserSerializer, CampaignSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_server.renderers import UserJSONRenderer
+from rest_framework.decorators import action
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import Distance
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -45,6 +49,7 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 class FarmViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows farms to be viewed or edited.
@@ -52,6 +57,7 @@ class FarmViewSet(viewsets.ModelViewSet):
     queryset = Farm.objects.all()
     serializer_class = FarmSerializer
     permission_classes = []
+
 
 class RegistrationAPIView(APIView):
     # Allow any user (authenticated or not) to hit this endpoint.
@@ -70,6 +76,7 @@ class RegistrationAPIView(APIView):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class LoginAPIView(APIView):
     permission_classes = (AllowAny,)
@@ -91,16 +98,42 @@ class LoginAPIView(APIView):
 
 class CampaignViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows farms to be viewed or edited.
+    API endpoint that allows campaigns to be viewed or edited and searched.
     """
     queryset = Campaign.objects.all()
     serializer_class = CampaignSerializer
     permission_classes = []
 
+    @action(detail=False)
+    def find_in_radius(self, request):
+        radius = request.query_params.get('radius', None)
+        lat = request.query_params.get('lat', None)
+        lng = request.query_params.get('lng', None)
+
+        if radius is None or lat is None or lng is None:
+            return Response('missing required parameter, at least one of radius, lat or lng is missing',
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            point = Point(float(lng), float(lat))
+        except:
+            return Response('invalid format for lat or lng. They should look like this: 53.926445',
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        filtered_campaigns = Campaign.objects.filter(location_id__point__distance_lt=(point, Distance(km=radius)))
+
+        page = self.paginate_queryset(filtered_campaigns)
+        if page is not None:
+           serializer = self.get_serializer(page, many=True)
+           return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(filtered_campaigns, many=True)
+        return Response(serializer.data)
+
 
 class LocationViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows farms to be viewed or edited.
+    API endpoint that allows locations to be viewed or edited.
     """
     queryset = Location.objects.all()
     serializer_class = LocationSerializer

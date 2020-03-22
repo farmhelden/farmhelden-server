@@ -172,4 +172,5 @@ SIMPLE_JWT = {
 
 SERIALIZATION_MODULES = {
     "geojson": "django.contrib.gis.serializers.geojson",
+    "custom_geojson": "rest_server.geojson_serializer",
  }

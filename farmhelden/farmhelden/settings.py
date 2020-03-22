@@ -35,11 +35,16 @@ CORS_EXPOSE_HEADERS = [
     'jwt',
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://localhost",
+    "https://farm-helden.de",
+    "https://web.staging.farm-helden.de"
+]
+
 CORS_ORIGIN_REGEX_WHITELIST = [
-    r"^https://farm-helden\.de",
-    r"^https://\w+\.staging\.farm-helden\.de",
-    r"^http://localhost",
-    r"^https://localhost"
+    r"^https://farm-helden\.de$",
+    r"^https://\w+\.\w+\.farm-helden\.de$",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

@@ -25,7 +25,7 @@ SECRET_KEY = '0-(crw$ad#os$gc=3ixo!r&o28#2bq@ia!xf!)w+&i1+4l3i*='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.farm-helden.de', 'localhost']
+ALLOWED_HOSTS = ['.farm-helden.de', 'localhost', '.floriangerhardt.de']
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'jwt',
@@ -39,12 +39,14 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://localhost",
     "https://farm-helden.de",
-    "https://web.staging.farm-helden.de"
+    "https://web.staging.farm-helden.de",
+    "https://web.staging.wirackern.floriangerhardt.de"
 ]
 
 CORS_ORIGIN_REGEX_WHITELIST = [
     r"^https://farm-helden\.de$",
     r"^https://\w+\.\w+\.farm-helden\.de$",
+    r"^https://\w+\.\w+\.wirackern\.floriangerhardt\.de$"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
